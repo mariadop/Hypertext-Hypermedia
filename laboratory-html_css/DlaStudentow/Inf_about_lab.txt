@@ -1,0 +1,16 @@
+Information about the laboratory.
+
+HTML + CSS
+structure of the page
+links
+forms
+css
+XML + XML Schema
+correctly formed XML file
+creating a hierarchy
+defining elements, attributes
+creating types
+validating XML file
+XSLT
+XML -> HTML transformation
+XML -> pdf transformation
