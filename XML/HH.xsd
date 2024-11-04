@@ -1,0 +1,130 @@
+﻿<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:element name="course" >
+		<xs:complexType >
+			<xs:sequence>
+				<xs:element ref="author"/> <!--dodane cz.2-->
+				<xs:element name="classes" type="classesType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="additional" type="additionalType" />  <!--dodane cz.5-->
+				<xs:element name="information"  type="informationType"/>
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="classesType">
+		<xs:sequence>
+			<xs:element name="component" type="componentType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute ref="kind" use="required" />  <!--dodane cz.4-->
+		<xs:attribute name="obligatory" type="obligatoryType" />  <!--dodane cz.4-->
+	</xs:complexType>
+	<xs:complexType name="componentType">
+		<xs:sequence>
+			<xs:element name="topic" type="xs:string" />
+			<xs:element name="theme" type="shortStringType" minOccurs="0" maxOccurs="unbounded" /> <!--zmienione z "xs:string" cz.3-->
+			<xs:element name="score" type="xs:decimal"/> <!--dodane cz.2-->
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:byte" /> <!--dodane cz.2-->
+	</xs:complexType>
+	<xs:complexType name="informationType">
+		<xs:sequence>
+			<xs:element name="facts" type="factsType" />
+			<xs:element name="links" type="linksType" /> <!--dodane cz.3-->
+			<xs:element name="media" type="mediaType" /> <!--dodane cz.3-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="factsType">
+		<xs:sequence>
+			<xs:element ref="author" />
+			<xs:element name="title" type="xs:string" />
+			<xs:element name="text" type="textType" /> <!--dodane cz.4-->
+		</xs:sequence>
+		<xs:attribute name="about" type="xs:string" />
+	</xs:complexType>
+	<xs:element name="author" type="authorType" />
+	<xs:complexType name="authorType">
+		<xs:sequence>
+			<xs:element name="name" type="shortStringType" /> <!--zmienione z "xs:string" cz.3-->
+			<xs:element name="surname" type="longStringType" /> <!--zmienione z "xs:string" cz.3-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="linksType">
+		<xs:sequence>
+			<xs:element name="link" type="linkType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="linkType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="source" type="xs:anyURI" />
+			</xs:extension>
+		</xs:simpleContent> 
+	</xs:complexType> <!--dodane linijki 46-57 cz.3-->
+	<!-- <xs:element name="link" type="linksType" /> dodane cz.3 ale tylko może-->
+	 <xs:complexType name="mediaType">
+		<xs:sequence>
+			<xs:element ref="image"  minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	 </xs:complexType>
+	 <xs:element name="image" type="linkType" /> <!--dodane cz.3-->
+	 <xs:simpleType name="shortStringType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30" />
+		</xs:restriction>
+	 </xs:simpleType> <!--dodane cz.3-->
+	 <xs:simpleType name="longStringType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50" />
+		</xs:restriction>
+	 </xs:simpleType> <!--dodane cz.3-->
+	 <xs:complexType name="textType" mixed="true">
+		<xs:sequence>
+			<xs:element name="subtitle" />
+		</xs:sequence> 
+	 </xs:complexType> <!--dodane cz.4-->
+	 <xs:attribute name="kind" type="kindType" />  <!--dodane cz.4-->
+	 <xs:simpleType name="kindType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="lecture" />
+			<xs:enumeration value="laboratory" />
+			<xs:enumeration value="project" />
+		</xs:restriction>
+	 </xs:simpleType>  <!--dodane cz.4-->
+	 <xs:simpleType name="obligatoryType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="yes|no" />
+		</xs:restriction>
+	 </xs:simpleType>  <!--dodane cz.4-->
+	 <xs:complexType name="additionalType">
+		<xs:sequence>
+			<xs:element name="books" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="address" type="xs:string" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="video" type="videoType" minOccurs="1" maxOccurs="1" />
+
+			<xs:element name="contact">
+    <xs:complexType>
+        <xs:choice>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="phone" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>
+</xs:element>
+		</xs:sequence>
+	 </xs:complexType>
+
+	 <xs:complexType name="videoType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="web" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	 </xs:complexType> <!--dodane cz.5-->
+</xs:schema>
